@@ -11803,21 +11803,101 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">zipfile</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="c1">#import requests</span>
 <span class="c1"># Dataset from - https://archive.ics.uci.edu/ml/datasets/SMS+Spam+Collection</span>
-<span class="n">df</span> <span class="o">=</span> <span class="c1">#TODO</span>
+<span class="c1">#https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip/SMSSpamCollection</span>
+<span class="c1">#url=&quot;https://archive.ics.uci.edu/ml/machine-learning-databases/00228/smsspamcollection.zip&quot;</span>
+<span class="c1">#r = requests.get(url)</span>
+<span class="c1">#with open(&quot;smsspamcollection.zip&quot;,&#39;wb&#39;) as f:</span>
+<span class="c1">#    f.write(r.content)</span>
+<span class="c1">#SMSZip = zipfile.ZipFile(&#39;smsspamcollection.zip&#39;)</span>
+<span class="c1">#SMSZip.extract(&#39;SMSSpamCollection&#39;)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_table</span><span class="p">(</span><span class="s1">&#39;SMSSpamCollection&#39;</span><span class="p">,</span><span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">,</span><span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">,</span><span class="s1">&#39;sms_message&#39;</span><span class="p">])</span>
+
 
 <span class="c1"># Output printing out first 5 columns</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>label</th>
+      <th>sms_message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>ham</td>
+      <td>Go until jurong point, crazy.. Available only ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>ham</td>
+      <td>Ok lar... Joking wif u oni...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>spam</td>
+      <td>Free entry in 2 a wkly comp to win FA Cup fina...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>ham</td>
+      <td>U dun say so early hor... U c already then say...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>ham</td>
+      <td>Nah I don't think he goes to usf, he lives aro...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11842,16 +11922,87 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">df</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="c1"># TODO))</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ham&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;spam&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">}</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[8]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>label</th>
+      <th>sms_message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>Go until jurong point, crazy.. Available only ...</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0</td>
+      <td>Ok lar... Joking wif u oni...</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>Free entry in 2 a wkly comp to win FA Cup fina...</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0</td>
+      <td>U dun say so early hor... U c already then say...</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0</td>
+      <td>Nah I don't think he goes to usf, he lives aro...</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -11925,7 +12076,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -11938,11 +12089,29 @@ div#notebook {
 
 <span class="n">lower_case_documents</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">documents</span><span class="p">:</span>
-    <span class="c1"># TODO</span>
+    <span class="n">lower_case_documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">lower_case_documents</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;hello, how are you!&#39;, &#39;win money, win from home.&#39;, &#39;call me now.&#39;, &#39;hello, call hello you tomorrow?&#39;]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -11962,7 +12131,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -11970,14 +12139,35 @@ div#notebook {
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="n">sans_punctuation_documents</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">re</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lower_case_documents</span><span class="p">:</span>
     <span class="c1"># TODO</span>
+    <span class="c1">#print(re.sub(r&#39;[{}]+&#39;.format(string.punctuation),&quot;&quot;,i))</span>
+    <span class="n">sans_punctuation_documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">&quot;[+\.\!\/_,$%^*(+</span><span class="se">\&quot;\&#39;</span><span class="s2">]+|[+——！，。？?、~@#￥%……&amp;*（）]+&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
     
 <span class="nb">print</span><span class="p">(</span><span class="n">sans_punctuation_documents</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;hello how are you&#39;, &#39;win money win from home&#39;, &#39;call me now&#39;, &#39;hello call hello you tomorrow&#39;]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -11998,7 +12188,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12007,10 +12197,29 @@ div#notebook {
 <span class="n">preprocessed_documents</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">sans_punctuation_documents</span><span class="p">:</span>
     <span class="c1"># TODO</span>
+    <span class="n">preprocessed_documents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">))</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">preprocessed_documents</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[&#39;hello&#39;, &#39;how&#39;, &#39;are&#39;, &#39;you&#39;], [&#39;win&#39;, &#39;money&#39;, &#39;win&#39;, &#39;from&#39;, &#39;home&#39;], [&#39;call&#39;, &#39;me&#39;, &#39;now&#39;], [&#39;hello&#39;, &#39;call&#39;, &#39;hello&#39;, &#39;you&#39;, &#39;tomorrow&#39;]]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12032,7 +12241,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12044,11 +12253,33 @@ div#notebook {
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">preprocessed_documents</span><span class="p">:</span>
     <span class="c1">#TODO</span>
+    <span class="n">frequency_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
     
 <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">frequency_list</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[Counter({&#39;hello&#39;: 1, &#39;how&#39;: 1, &#39;are&#39;: 1, &#39;you&#39;: 1}),
+ Counter({&#39;win&#39;: 2, &#39;money&#39;: 1, &#39;from&#39;: 1, &#39;home&#39;: 1}),
+ Counter({&#39;call&#39;: 1, &#39;me&#39;: 1, &#39;now&#39;: 1}),
+ Counter({&#39;hello&#39;: 2, &#39;call&#39;: 1, &#39;you&#39;: 1, &#39;tomorrow&#39;: 1})]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12067,7 +12298,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12099,14 +12330,14 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="k">import</span> <span class="n">CountVectorizer</span>
-<span class="n">count_vector</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="n">count_vector</span> <span class="o">=</span> <span class="n">CountVectorizer</span><span class="p">(</span><span class="n">lowercase</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">token_pattern</span> <span class="o">=</span> <span class="s1">&#39;(?u)</span><span class="se">\\</span><span class="s1">b</span><span class="se">\\</span><span class="s1">w</span><span class="se">\\</span><span class="s1">w+</span><span class="se">\\</span><span class="s1">b&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12129,13 +12360,35 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="err">`</span><span class="n">lowercase</span><span class="err">`</span> <span class="n">参数的默认值为</span> <span class="err">`</span><span class="kc">True</span><span class="err">`，</span><span class="n">它会将所有文本都转换为小写形式</span><span class="err">。</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-intense-fg ansi-bold">  File </span><span class="ansi-green-intense-fg ansi-bold">&#34;&lt;ipython-input-55-410269f7e208&gt;&#34;</span><span class="ansi-cyan-intense-fg ansi-bold">, line </span><span class="ansi-green-intense-fg ansi-bold">1</span>
+<span class="ansi-yellow-intense-fg ansi-bold">    `lowercase` 参数的默认值为 `True`，它会将所有文本都转换为小写形式。</span>
+<span class="ansi-white-intense-fg ansi-bold">    ^</span>
+<span class="ansi-red-intense-fg ansi-bold">SyntaxError</span><span class="ansi-red-intense-fg ansi-bold">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12153,13 +12406,35 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="err">`</span><span class="n">token_pattern</span><span class="err">`</span> <span class="n">参数具有默认正则表达式值</span> <span class="err">`</span><span class="p">(</span><span class="err">?</span><span class="n">u</span><span class="p">)</span>\\<span class="n">b</span>\\<span class="n">w</span>\\<span class="n">w</span><span class="o">+</span>\\<span class="n">b</span><span class="err">`，</span><span class="n">它会忽略所有标点符号并将它们当做分隔符</span><span class="err">，</span><span class="n">并将长度大于等于</span> <span class="mi">2</span> <span class="n">的字母数字字符串当做单个令牌或单词</span><span class="err">。</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-intense-fg ansi-bold">  File </span><span class="ansi-green-intense-fg ansi-bold">&#34;&lt;ipython-input-56-3605453c6c46&gt;&#34;</span><span class="ansi-cyan-intense-fg ansi-bold">, line </span><span class="ansi-green-intense-fg ansi-bold">1</span>
+<span class="ansi-yellow-intense-fg ansi-bold">    `token_pattern` 参数具有默认正则表达式值 `(?u)\\b\\w\\w+\\b`，它会忽略所有标点符号并将它们当做分隔符，并将长度大于等于 2 的字母数字字符串当做单个令牌或单词。</span>
+<span class="ansi-white-intense-fg ansi-bold">    ^</span>
+<span class="ansi-red-intense-fg ansi-bold">SyntaxError</span><span class="ansi-red-intense-fg ansi-bold">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12177,13 +12452,35 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="err">`</span><span class="n">stop_words</span><span class="err">`</span> <span class="n">参数如果设为</span> <span class="err">`</span><span class="n">english</span><span class="err">`，</span><span class="n">将从文档集合中删除与</span> <span class="n">scikit</span><span class="o">-</span><span class="n">learn</span> <span class="n">中定义的英语停用词列表匹配的所有单词</span><span class="err">。</span><span class="n">考虑到我们的数据集规模不大</span><span class="err">，</span><span class="n">并且我们处理的是信息</span><span class="err">，</span><span class="n">并不是电子邮件这样的更庞大文本来源</span><span class="err">，</span><span class="n">因此我们将不设置此参数值</span><span class="err">。</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-intense-fg ansi-bold">  File </span><span class="ansi-green-intense-fg ansi-bold">&#34;&lt;ipython-input-57-37336f55c1fa&gt;&#34;</span><span class="ansi-cyan-intense-fg ansi-bold">, line </span><span class="ansi-green-intense-fg ansi-bold">1</span>
+<span class="ansi-yellow-intense-fg ansi-bold">    `stop_words` 参数如果设为 `english`，将从文档集合中删除与 scikit-learn 中定义的英语停用词列表匹配的所有单词。考虑到我们的数据集规模不大，并且我们处理的是信息，并不是电子邮件这样的更庞大文本来源，因此我们将不设置此参数值。</span>
+<span class="ansi-white-intense-fg ansi-bold">    ^</span>
+<span class="ansi-red-intense-fg ansi-bold">SyntaxError</span><span class="ansi-red-intense-fg ansi-bold">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12199,7 +12496,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12210,6 +12507,29 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CountVectorizer(analyzer=&#39;word&#39;, binary=False, decode_error=&#39;strict&#39;,
+        dtype=&lt;class &#39;numpy.int64&#39;&gt;, encoding=&#39;utf-8&#39;, input=&#39;content&#39;,
+        lowercase=True, max_df=1.0, max_features=None, min_df=1,
+        ngram_range=(1, 1), preprocessor=None, stop_words=None,
+        strip_accents=None, token_pattern=&#39;(?u)\\b\\w\\w+\\b&#39;,
+        tokenizer=None, vocabulary=None)
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12228,7 +12548,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12239,6 +12559,48 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&#39;Hello, how are you!&#39;, &#39;Win money, win from home.&#39;, &#39;Call me now.&#39;, &#39;Hello, Call hello you tomorrow?&#39;]
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[63]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[&#39;are&#39;,
+ &#39;call&#39;,
+ &#39;from&#39;,
+ &#39;hello&#39;,
+ &#39;home&#39;,
+ &#39;how&#39;,
+ &#39;me&#39;,
+ &#39;money&#39;,
+ &#39;now&#39;,
+ &#39;tomorrow&#39;,
+ &#39;win&#39;,
+ &#39;you&#39;]</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12259,17 +12621,41 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[74]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">doc_array</span> <span class="o">=</span> <span class="c1"># TODO</span>
-<span class="n">doc_array</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="c1">#print(count_vector.transform(documents).toarray())</span>
+<span class="c1">#doc_array = np.array([count_vector.get_feature_names()])</span>
+<span class="n">doc_array</span> <span class="o">=</span> <span class="n">count_vector</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">documents</span><span class="p">)</span><span class="o">.</span><span class="n">toarray</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">doc_array</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[1 0 0 1 0 1 0 0 0 0 0 1]
+ [0 0 1 0 1 0 0 1 0 0 2 0]
+ [0 1 0 0 0 0 1 0 1 0 0 0]
+ [0 1 0 2 0 0 0 0 0 1 0 1]]
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12289,17 +12675,39 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[75]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">frequency_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="c1"># TODO))</span>
-<span class="n">frequency_matrix</span>
+<span class="n">frequency_matrix</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">doc_array</span><span class="p">,</span><span class="n">columns</span><span class="o">=</span><span class="n">count_vector</span><span class="o">.</span><span class="n">get_feature_names</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">frequency_matrix</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>   are  call  from  hello  home  how  me  money  now  tomorrow  win  you
+0    1     0     0      1     0    1   0      0    0         0    0    1
+1    0     0     1      0     1    0   0      1    0         0    2    0
+2    0     1     0      0     0    0   1      0    1         0    0    0
+3    0     1     0      2     0    0   0      0    0         1    0    1
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12330,7 +12738,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[77]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12352,6 +12760,26 @@ div#notebook {
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Number of rows in the total set: 5572
+Number of rows in the training set: 4179
+Number of rows in the test set: 1393
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12397,7 +12825,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[78]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12469,7 +12897,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[79]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12488,11 +12916,30 @@ div#notebook {
 <span class="n">p_neg_no_diabetes</span> <span class="o">=</span> <span class="mf">0.9</span>
 
 <span class="c1"># P(Pos)</span>
-<span class="n">p_pos</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="c1">#P(Pos) = [P(D) * Sensitivity] + [P(~D) * (1-Specificity))]</span>
+<span class="n">p_pos</span> <span class="o">=</span> <span class="n">p_diabetes</span><span class="o">*</span><span class="n">p_pos_diabetes</span> <span class="o">+</span> <span class="n">p_no_diabetes</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">p_neg_no_diabetes</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The probability of getting a positive test result P(Pos) is: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span><span class="nb">format</span><span class="p">(</span><span class="n">p_pos</span><span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The probability of getting a positive test result P(Pos) is: {} 0.10799999999999998
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12533,19 +12980,37 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[80]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="c1"># P(D|Pos)</span>
-<span class="n">p_diabetes_pos</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="n">p_diabetes_pos</span> <span class="o">=</span> <span class="n">p_diabetes</span><span class="o">*</span><span class="n">p_pos_diabetes</span><span class="o">/</span><span class="n">p_pos</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Probability of an individual having diabetes, given that that individual got a positive test result is:</span><span class="se">\</span>
 <span class="s1">&#39;</span><span class="p">,</span><span class="nb">format</span><span class="p">(</span><span class="n">p_diabetes_pos</span><span class="p">))</span> 
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Probability of an individual having diabetes, given that that individual got a positive test result is: 0.08333333333333336
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12576,7 +13041,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[83]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12586,12 +13051,30 @@ div#notebook {
 <span class="n">p_pos_no_diabetes</span> <span class="o">=</span> <span class="mf">0.1</span>
 
 <span class="c1"># P(~D|Pos)</span>
-<span class="n">p_no_diabetes_pos</span> <span class="o">=</span> <span class="c1"># TODO</span>
-<span class="nb">print</span> <span class="s1">&#39;Probability of an individual not having diabetes, given that that individual got a positive test result is:&#39;</span>\
-<span class="p">,</span><span class="n">p_no_diabetes_pos</span>
+<span class="n">p_no_diabetes_pos</span> <span class="o">=</span> <span class="n">p_no_diabetes</span><span class="o">*</span><span class="n">p_pos_no_diabetes</span><span class="o">/</span><span class="n">p_pos</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Probability of an individual not having diabetes, given that that individual got a positive test result is:&#39;</span>\
+<span class="p">,</span><span class="n">p_no_diabetes_pos</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Probability of an individual not having diabetes, given that that individual got a positive test result is: 0.9166666666666669
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12691,7 +13174,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[92]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12706,7 +13189,8 @@ div#notebook {
 <span class="c1"># P(I/J)</span>
 <span class="n">p_j_i</span> <span class="o">=</span> <span class="mf">0.1</span>
 
-<span class="n">p_j_text</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="c1">#P(F,I|J)</span>
+<span class="n">p_j_text</span> <span class="o">=</span> <span class="n">p_j</span><span class="o">*</span><span class="p">(</span><span class="n">p_j_f</span><span class="o">+</span><span class="n">p_j_i</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">p_j_text</span><span class="p">)</span>
 </pre></div>
 
@@ -12714,10 +13198,28 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.1
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[96]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12732,7 +13234,8 @@ div#notebook {
 <span class="c1"># P(I/G)</span>
 <span class="n">p_g_i</span> <span class="o">=</span> <span class="mf">0.2</span>
 
-<span class="n">p_g_text</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="c1">#P(F,I|G)</span>
+<span class="n">p_g_text</span> <span class="o">=</span> <span class="n">p_g</span><span class="o">*</span><span class="p">(</span><span class="n">p_g_f</span><span class="o">+</span><span class="n">p_g_i</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">p_g_text</span><span class="p">)</span>
 </pre></div>
 
@@ -12740,20 +13243,57 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.44999999999999996
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[97]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution: Step 3: Compute P(F,I) and store in p_f_i</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">p_f_i</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="c1">#P(F,I)</span>
+<span class="n">p_f_i</span> <span class="o">=</span> <span class="n">p_j_text</span><span class="o">+</span><span class="n">p_g_text</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Probability of words freedom and immigration being said are: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">p_f_i</span><span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Probability of words freedom and immigration being said are:  0.5499999999999999
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12785,17 +13325,35 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[95]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">p_j_fi</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="n">p_j_fi</span> <span class="o">=</span> <span class="n">p_j</span><span class="o">*</span><span class="n">p_j_f</span><span class="o">*</span><span class="n">p_j_i</span><span class="o">/</span><span class="n">p_f_i</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The probability of Jill Stein saying the words Freedom and Immigration: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">p_j_fi</span><span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The probability of Jill Stein saying the words Freedom and Immigration:  0.009090909090909094
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12818,17 +13376,36 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[98]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">p_g_fi</span> <span class="o">=</span> <span class="c1"># TODO</span>
+<span class="n">p_g_fi</span> <span class="o">=</span> <span class="n">p_g</span><span class="o">*</span><span class="n">p_g_f</span><span class="o">*</span><span class="n">p_g_i</span><span class="o">/</span><span class="n">p_f_i</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The probability of Gary Johnson saying the words Freedom and Immigration: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">p_g_fi</span><span class="p">))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>The probability of Gary Johnson saying the words Freedom and Immigration:  0.1272727272727273
+0.06666666666666668
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12869,18 +13446,38 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[99]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="kn">from</span> <span class="nn">sklearn.naive_bayes</span> <span class="k">import</span> <span class="n">MultinomialNB</span>
-<span class="n">naive_bayes</span> <span class="o">=</span> <span class="c1"># TODO</span>
-<span class="n">naive_bayes</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="c1"># TODO)</span>
+<span class="n">naive_bayes</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+<span class="n">naive_bayes</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span><span class="n">y_train</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[99]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>MultinomialNB(alpha=1.0, class_prior=None, fit_prior=True)</pre>
+</div>
+
+</div>
+
 </div>
 </div>
 
@@ -12904,13 +13501,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[100]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="n">predictions</span> <span class="o">=</span> <span class="n">naive_bayes</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="c1"># TODO)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">naive_bayes</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testing_data</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12937,7 +13534,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[101]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
@@ -12951,23 +13548,64 @@ div#notebook {
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[101]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#34;\nInstructions:\nCompute the accuracy, precision, recall and F1 scores of your model using your test data &#39;y_test&#39; and the predictions\nyou made earlier stored in the &#39;predictions&#39; variable.\n&#34;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[104]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">Solution</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">accuracy_score</span><span class="p">,</span> <span class="n">precision_score</span><span class="p">,</span> <span class="n">recall_score</span><span class="p">,</span> <span class="n">f1_score</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="c1"># TODO)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Precision score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="c1"># TODO)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recall score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">recall_score</span><span class="p">(</span><span class="c1"># TODO)))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F1 score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="c1"># TODO)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">predictions</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Precision score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">precision_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">predictions</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Recall score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">recall_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">predictions</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;F1 score: &#39;</span><span class="p">,</span> <span class="nb">format</span><span class="p">(</span><span class="n">f1_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span><span class="n">predictions</span><span class="p">)))</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Accuracy score:  0.9885139985642498
+Precision score:  0.9720670391061452
+Recall score:  0.9405405405405406
+F1 score:  0.9560439560439562
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
