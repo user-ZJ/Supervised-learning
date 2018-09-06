@@ -17,7 +17,7 @@
 ## 基于实例的算法
 基于实例的算法常常用来对决策问题建立模型，这样的模型常常先选取一批样本数据，然后根据某些近似性把新数据与样本数据进行比较。通过这种方式来寻找最佳的匹配。因此，基于实例的算法常常也被称为“赢家通吃”学习或者“基于记忆的学习”。  
 
- k-Nearest Neighbor(KNN)  
+k-Nearest Neighbor(KNN)  
 学习矢量量化（Learning Vector Quantization， LVQ）  
 自组织映射算法（Self-Organizing Map ， SOM）  
 
