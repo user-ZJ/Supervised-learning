@@ -8,7 +8,7 @@
 ## 回归算法
 回归算法是试图采用对误差的衡量来探索变量之间的关系的一类算法。在机器学习领域，人们说起回归，有时候是指一类问题，有时候是指一类算法。    
 
-最小二乘法（Ordinary Least Square）  
+线性回归（liner Regression）  
 逻辑回归（Logistic Regression）  
 逐步式回归（Stepwise Regression）  
 多元自适应回归样条（Multivariate Adaptive Regression Splines）  
@@ -24,8 +24,8 @@ k-Nearest Neighbor(KNN)
 ## 正则化方法
 正则化方法是其他算法（通常是回归算法）的延伸，根据算法的复杂度对算法进行调整。正则化方法通常对简单模型予以奖励而**对复杂算法予以惩罚**。
 
-Ridge Regression  
-Least Absolute Shrinkage and Selection Operator（LASSO）  
+岭回归（Ridge Regression）  
+最小绝对值收敛和选择算子、套索算法（Least Absolute Shrinkage and Selection Operator（LASSO））  
 弹性网络（Elastic Net）。
 
 
@@ -35,8 +35,8 @@ Least Absolute Shrinkage and Selection Operator（LASSO）
 分类及回归树（Classification And Regression Tree， CART）  
 ID3 (Iterative Dichotomiser 3)  
 C4.5  
-Chi-squared Automatic Interaction Detection(CHAID)  
-Decision Stump  
+卡方自动交互检测算法（Chi-squared Automatic Interaction Detection(CHAID)）  
+决策树桩（Decision Stump）  
 随机森林（Random Forest）  
 多元自适应回归样条（MARS） 
 梯度推进机（Gradient Boosting Machine， GBM）  
