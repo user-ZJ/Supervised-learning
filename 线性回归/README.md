@@ -10,9 +10,9 @@
 
 ## 最小二乘法（Least Square）
 以最简单的一元线性模型来解释最小二乘法；最小二乘法以平方和作为损失，损失函数为：  
-![](https://i.imgur.com/noQmctU.png)
+![](https://i.imgur.com/noQmctU.png)  
 通过最小化损失Q，求直线y=B0+B1x，即确定B0和B1的值，把它们看作是Q的函数，就变成了一个求极值的问题，可以通过求导数得到。求Q对两个待估参数的偏导数：  
-![](https://i.imgur.com/1hIJ29x.png)
+![](https://i.imgur.com/1hIJ29x.png)  
 根据数学知识我们知道，函数的极值点为偏导为0的点。解得：  
 ![](https://i.imgur.com/mb73v8u.png)
 
